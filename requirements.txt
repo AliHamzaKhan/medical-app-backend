@@ -4,3 +4,11 @@ autopep8
 
 # App
 flask
+fastapi
+uvicorn[standard]
+sqlalchemy
+passlib
+python-jose
+pydantic
+python-dotenv
+alembic
