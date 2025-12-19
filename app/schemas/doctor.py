@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 from .user import User
 
 class DoctorBase(BaseModel):
@@ -9,6 +9,12 @@ class DoctorBase(BaseModel):
 
 class DoctorCreate(DoctorBase):
     user_id: int
+
+class DoctorUpdate(DoctorBase):
+    experience_years: Optional[int] = None
+    consultation_fee: Optional[int] = None
+    bio: Optional[str] = None
+    user_id: Optional[int] = None
 
 class Doctor(DoctorBase):
     id: int

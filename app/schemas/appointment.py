@@ -14,6 +14,12 @@ class AppointmentBase(BaseModel):
 class AppointmentCreate(AppointmentBase):
     pass
 
+class AppointmentUpdate(AppointmentBase):
+    doctor_id: Optional[int] = None
+    patient_id: Optional[int] = None
+    appointment_time: Optional[datetime] = None
+    status: Optional[str] = None
+
 class Appointment(AppointmentBase):
     id: int
     doctor: Doctor

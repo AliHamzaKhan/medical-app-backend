@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class SpecialityBase(BaseModel):
@@ -8,6 +9,8 @@ class SpecialityBase(BaseModel):
 class SpecialityCreate(SpecialityBase):
     pass
 
+class SpecialityUpdate(SpecialityBase):
+    name: Optional[str] = None
 
 class Speciality(SpecialityBase):
     id: int
