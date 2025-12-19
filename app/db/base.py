@@ -1,20 +1,11 @@
-from app.db.base_class import Base  # noqa
-from app.models.role import Role # noqa
-from app.models.user import User  # noqa
-from app.models.hospital import Hospital  # noqa
-from app.models.patient import Patient # noqa
-from app.models.speciality import Speciality # noqa
-from app.models.clinic import Clinic # noqa
-from app.models.doctor import Doctor # noqa
-from app.models.doctor_document import DoctorDocument # noqa
-from app.models.doctor_speciality import doctor_speciality # noqa
-from app.models.plan import Plan # noqa
-from app.models.subscription import Subscription # noqa
-from app.models.ai_report import AIReport # noqa
-from app.models.package import Package # noqa
-from app.models.availability import Availability # noqa
-from app.models.appointment import Appointment # noqa
-from app.models.symptom import Symptom # noqa
-from app.models.medicine import Medicine # noqa
-from app.models.medicine_search_history import MedicineSearchHistory # noqa
-from app.models.user_subscription_plan import UserSubscriptionPlan # noqa
+from sqlalchemy.ext.declarative import as_declarative, declared_attr
+
+@as_declarative()
+class Base:
+    id: int
+    __name__: str
+
+    # Generate __tablename__ automatically
+    @declared_attr
+    def __tablename__(cls) -> str:
+        return cls.__name__.lower()

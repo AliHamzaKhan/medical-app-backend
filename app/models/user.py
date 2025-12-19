@@ -1,3 +1,4 @@
+import enum
 from sqlalchemy import Column, Integer, String, Boolean, Date, Enum as EnumDB, Table, ForeignKey
 from sqlalchemy.orm import relationship
 from app.db.base_class import Base

@@ -14,5 +14,7 @@ app.include_router(api_router)
 @app.on_event("startup")
 def startup_event():
     db = SessionLocal()
-    pre_populate_specialities(db)
-    db.close()
+    try:
+        pre_populate_specialities(db)
+    finally:
+        db.close()
