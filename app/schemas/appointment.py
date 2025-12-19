@@ -1,31 +1,23 @@
 from pydantic import BaseModel
 from datetime import datetime
+from .user import User
+from .doctor import Doctor
+from .patient import Patient
 from typing import Optional
 
 class AppointmentBase(BaseModel):
+    doctor_id: int
     patient_id: int
-    availability_id: int
     appointment_time: datetime
-    reason: str
     status: str
 
 class AppointmentCreate(AppointmentBase):
-    doctor_id: int
-    start_time: datetime
-    end_time: datetime
+    pass
 
-class AppointmentUpdate(BaseModel):
-    patient_id: Optional[int] = None
-    availability_id: Optional[int] = None
-    appointment_time: Optional[datetime] = None
-    reason: Optional[str] = None
-    status: Optional[str] = None
-
-class AppointmentInDB(AppointmentBase):
+class Appointment(AppointmentBase):
     id: int
+    doctor: Doctor
+    patient: Patient
 
     class Config:
         orm_mode = True
-
-class Appointment(AppointmentInDB):
-    pass

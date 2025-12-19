@@ -14,3 +14,7 @@ from app.models.ai_report import AIReport # noqa
 from app.models.package import Package # noqa
 from app.models.availability import Availability # noqa
 from app.models.appointment import Appointment # noqa
+from app.models.symptom import Symptom # noqa
+from app.models.medicine import Medicine # noqa
+from app.models.medicine_search_history import MedicineSearchHistory # noqa
+from app.models.user_subscription_plan import UserSubscriptionPlan # noqa

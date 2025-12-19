@@ -13,7 +13,7 @@ class AIReportImage(AIReportImageBase):
     ai_report_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class AIReportBase(BaseModel):
     description: Optional[str] = None
@@ -36,4 +36,4 @@ class AIReport(AIReportBase):
     images: List[AIReportImage] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True

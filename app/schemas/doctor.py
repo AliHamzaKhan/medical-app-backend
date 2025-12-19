@@ -1,22 +1,19 @@
 from pydantic import BaseModel
 from typing import List
+from .user import User
 
 class DoctorBase(BaseModel):
-    name: str
-    specialization: str
-    hospital_id: int
+    experience_years: int
+    consultation_fee: int
+    bio: str
 
 class DoctorCreate(DoctorBase):
-    pass
+    user_id: int
 
-class DoctorUpdate(DoctorBase):
-    pass
-
-class DoctorInDB(DoctorBase):
+class Doctor(DoctorBase):
     id: int
+    user: User
+    specialities: List[str] = []
 
     class Config:
         orm_mode = True
-
-class Doctor(DoctorInDB):
-    pass

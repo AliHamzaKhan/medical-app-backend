@@ -1,32 +1,20 @@
-
 from sqlalchemy.orm import Session
+from app.models.speciality import Speciality
 
-from app import crud, schemas
-from app.core.config import settings
-
-def create_initial_superuser(db: Session) -> None:
-    user = crud.user.get_by_email(db, email=settings.FIRST_SUPERUSER)
-    if not user:
-        user_in = schemas.UserCreate(
-            email=settings.FIRST_SUPERUSER,
-            password=settings.FIRST_SUPERUSER_PASSWORD,
-            is_superuser=True,
-        )
-        user = crud.user.create(db, obj_in=user_in)
-
-def create_initial_plans(db: Session) -> None:
-    plans = crud.crud_plan.get_plans(db)
-    if not plans:
-        plan_in = schemas.PlanCreate(
-            name="Basic",
-            price=0.00,
-            duration_days=30,
-        )
-        crud.crud_plan.create_plan(db, plan_in=plan_in)
-
-        plan_in = schemas.PlanCreate(
-            name="Premium",
-            price=10.00,
-            duration_days=30,
-        )
-        crud.crud_plan.create_plan(db, plan_in=plan_in)
+def pre_populate_specialities(db: Session):
+    specialities = [
+        "Cardiology", "Dermatology", "Endocrinology", "Gastroenterology",
+        "Neurology", "Oncology", "Ophthalmology", "Orthopedics",
+        "Otolaryngology", "Pediatrics", "Psychiatry", "Pulmonology",
+        "Radiology", "Urology", "Anesthesiology", "General Surgery",
+        "Internal Medicine", "Family Medicine", "Emergency Medicine",
+        "Obstetrics and Gynecology", "Pathology", "Physical Medicine and Rehabilitation",
+        "Allergy and Immunology", "Nephrology", "Rheumatology", "Infectious Disease",
+        "Hematology", "Geriatrics", "Neonatology", "Sports Medicine"
+    ]
+    for speciality_name in specialities:
+        speciality = db.query(Speciality).filter(Speciality.name == speciality_name).first()
+        if not speciality:
+            db_speciality = Speciality(name=speciality_name)
+            db.add(db_speciality)
+    db.commit()

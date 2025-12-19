@@ -1,13 +1,18 @@
 from fastapi import FastAPI
+from app.api.api import api_router
+from app.db.session import SessionLocal
+from app.db.base import Base
+from app.db.session import engine
+from app.db.initial_data import pre_populate_specialities
 
-from app.api.v1.api import api_router
-from app.core.config import settings
+Base.metadata.create_all(bind=engine)
 
-app = FastAPI(
-    title="My App",
-    openapi_url=f"{settings.API_V1_STR}/openapi.json",
-    docs_url=f"{settings.API_V1_STR}/docs",
-    redoc_url=f"{settings.API_V1_STR}/redoc"
-)
+app = FastAPI()
 
-app.include_router(api_router, prefix=settings.API_V1_STR)
+app.include_router(api_router)
+
+@app.on_event("startup")
+def startup_event():
+    db = SessionLocal()
+    pre_populate_specialities(db)
+    db.close()

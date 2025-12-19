@@ -1,0 +1,20 @@
+from pydantic import BaseModel
+from datetime import datetime
+from .user import User
+
+class MessageBase(BaseModel):
+    sender_id: int
+    receiver_id: int
+    content: str
+
+class MessageCreate(MessageBase):
+    pass
+
+class Message(MessageBase):
+    id: int
+    sent_at: datetime
+    sender: User
+    receiver: User
+
+    class Config:
+        orm_mode = True

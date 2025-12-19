@@ -1,23 +1,15 @@
 from pydantic import BaseModel
-from datetime import date
+from .user import User
 
 class PatientBase(BaseModel):
-    name: str
-    date_of_birth: date
-    address: str
-    hospital_id: int
+    pass
 
 class PatientCreate(PatientBase):
-    pass
+    user_id: int
 
-class PatientUpdate(PatientBase):
-    pass
-
-class PatientInDB(PatientBase):
+class Patient(PatientBase):
     id: int
+    user: User
 
     class Config:
         orm_mode = True
-
-class Patient(PatientInDB):
-    pass

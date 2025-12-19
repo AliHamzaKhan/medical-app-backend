@@ -19,7 +19,7 @@ class AvailabilityInDB(AvailabilityBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class Availability(AvailabilityInDB):
     pass
