@@ -1,5 +1,5 @@
 from sqlalchemy import Table, Column, Integer, ForeignKey
-from app.db.base_class import Base
+from app.db.base import Base
 
 doctor_speciality_association = Table('doctor_speciality',
     Base.metadata,

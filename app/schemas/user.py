@@ -35,4 +35,4 @@ class User(UserBase):
     specialities: List[Speciality] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True

@@ -18,4 +18,4 @@ class Review(ReviewBase):
     patient: Patient
 
     class Config:
-        orm_mode = True
+        from_attributes = True

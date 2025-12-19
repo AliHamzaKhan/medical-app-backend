@@ -16,4 +16,4 @@ class Patient(PatientBase):
     user: User
 
     class Config:
-        orm_mode = True
+        from_attributes = True
