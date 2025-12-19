@@ -135,7 +135,7 @@ def update_clinic(
 @router.delete("/clinics/{id}", response_model=schemas.Clinic)
 def delete_clinic(
     *, 
-    db: Session = Depends(deps.get_DAb),
+    db: Session = Depends(deps.get_db),
     id: int,
     current_user: models.User = Depends(deps.get_current_active_user)
 ) -> Any:
