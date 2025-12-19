@@ -1,5 +1,13 @@
-
-from .crud_user import user
-from .crud_doctor import doctor
+from .crud_hospital import hospital
 from .crud_patient import patient
+from .crud_doctor import doctor
+from .crud_user import user
 from .crud_role import role
+from .crud_plan import plan
+from .crud_subscription import subscription
+from .crud_ai_report import ai_report
+from .crud_speciality import speciality
+from .crud_clinic import clinic
+from .crud_doctor_document import doctor_document
+from .crud_availability import availability
+from .crud_appointment import appointment

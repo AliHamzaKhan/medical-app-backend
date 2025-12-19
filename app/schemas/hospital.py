@@ -1,32 +1,29 @@
-
 from pydantic import BaseModel
+from typing import Optional
 
-# Shared properties
 class HospitalBase(BaseModel):
     name: str
     address: str
     latitude: float
     longitude: float
+    departments: Optional[str] = None
+    website: Optional[str] = None
+    phone_no: Optional[str] = None
+    current_status: Optional[str] = None
+    image: Optional[str] = None
+    timings: Optional[str] = None
 
-# Properties to receive on hospital creation
 class HospitalCreate(HospitalBase):
     pass
 
-# Properties to receive on hospital update
 class HospitalUpdate(HospitalBase):
     pass
 
-# Properties shared by models stored in DB
-class HospitalInDBBase(HospitalBase):
+class HospitalInDB(HospitalBase):
     id: int
 
     class Config:
         orm_mode = True
 
-# Properties to return to client
-class Hospital(HospitalInDBBase):
-    pass
-
-# Properties properties stored in DB
-class HospitalInDB(HospitalInDBBase):
+class Hospital(HospitalInDB):
     pass

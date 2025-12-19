@@ -1,14 +1,12 @@
-# Dev environment
-pip
-autopep8
-
-# App
-flask
 fastapi
-uvicorn[standard]
-sqlalchemy
 passlib
-python-jose
+bcrypt
+sqlalchemy
+psycopg2-binary
 pydantic
-python-dotenv
+python-jose
 alembic
+python-multipart
+pandas
+openpyxl
+pytest

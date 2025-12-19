@@ -66,3 +66,10 @@ def get_current_active_superuser_or_doctor(current_user: models.User = Depends(g
             status_code=400, detail="The user is not a superuser or a doctor"
         )
     return current_user
+
+def get_current_active_admin_user(current_user: models.User = Depends(get_current_active_user)) -> models.User:
+    if not crud.user.is_admin(current_user):
+        raise HTTPException(
+            status_code=400, detail="The user is not an admin"
+        )
+    return current_user
