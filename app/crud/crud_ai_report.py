@@ -28,15 +28,4 @@ class CRUDAIReport(CRUDBase[AIReport, AIReportCreate, AIReportUpdate]):
 
         return db_obj
 
-    def get_multi_by_user(
-        self, db: Session, *, user_id: int, skip: int = 0, limit: int = 100
-    ) -> List[AIReport]:
-        return (
-            db.query(self.model)
-            .filter(self.model.user_id == user_id)
-            .offset(skip)
-            .limit(limit)
-            .all()
-        )
-
 ai_report = CRUDAIReport(AIReport)
