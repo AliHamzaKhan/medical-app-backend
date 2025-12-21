@@ -1,19 +1,15 @@
-import enum
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Enum
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from app.db.base_class import Base
+from app.db.base import Base
 import datetime
 
-class NotificationStatus(str, enum.Enum):
-    read = "read"
-    unread = "unread"
-
 class Notification(Base):
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    title = Column(String)
-    message = Column(String)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
-    status = Column(Enum(NotificationStatus))
+    __tablename__ = "notifications"
 
-    user = relationship('User', back_populates='notifications')
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    message = Column(String)
+    is_read = Column(Integer, default=0)
+    timestamp = Column(DateTime, default=datetime.datetime.utcnow)
+
+    user = relationship("User")

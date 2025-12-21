@@ -2,36 +2,36 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.api import deps
 from app.schemas.appointment import Appointment, AppointmentCreate
-from app.crud.appointment import get_appointment, get_appointments, create_appointment, update_appointment, delete_appointment
+from app.crud import appointment
 
 router = APIRouter()
 
 @router.post("/", response_model=Appointment)
-def create_new_appointment(appointment: AppointmentCreate, db: Session = Depends(deps.get_db)):
-    return create_appointment(db=db, appointment=appointment)
+def create_new_appointment(appointment_in: AppointmentCreate, db: Session = Depends(deps.get_db)):
+    return appointment.create(db=db, obj_in=appointment_in)
 
 @router.get("/{appointment_id}", response_model=Appointment)
 def read_appointment(appointment_id: int, db: Session = Depends(deps.get_db)):
-    db_appointment = get_appointment(db, appointment_id=appointment_id)
+    db_appointment = appointment.get(db, id=appointment_id)
     if db_appointment is None:
         raise HTTPException(status_code=404, detail="Appointment not found")
     return db_appointment
 
 @router.get("/", response_model=list[Appointment])
 def read_appointments(skip: int = 0, limit: int = 100, db: Session = Depends(deps.get_db)):
-    appointments = get_appointments(db, skip=skip, limit=limit)
+    appointments = appointment.get_multi(db, skip=skip, limit=limit)
     return appointments
 
 @router.put("/{appointment_id}", response_model=Appointment)
-def update_existing_appointment(appointment_id: int, appointment: AppointmentCreate, db: Session = Depends(deps.get_db)):
-    db_appointment = update_appointment(db, appointment_id=appointment_id, appointment=appointment)
+def update_existing_appointment(appointment_id: int, appointment_in: AppointmentCreate, db: Session = Depends(deps.get_db)):
+    db_appointment = appointment.update(db, db_obj=appointment.get(db, id=appointment_id), obj_in=appointment_in)
     if db_appointment is None:
         raise HTTPException(status_code=404, detail="Appointment not found")
     return db_appointment
 
 @router.delete("/{appointment_id}", response_model=Appointment)
 def delete_existing_appointment(appointment_id: int, db: Session = Depends(deps.get_db)):
-    db_appointment = delete_appointment(db, appointment_id=appointment_id)
+    db_appointment = appointment.remove(db, id=appointment_id)
     if db_appointment is None:
         raise HTTPException(status_code=404, detail="Appointment not found")
     return db_appointment

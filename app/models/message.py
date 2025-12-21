@@ -1,16 +1,16 @@
-from sqlalchemy import Column, Integer, Text, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from app.db.base_class import Base
+from app.db.base import Base
 import datetime
 
 class Message(Base):
-    id = Column(Integer, primary_key=True, index=True)
-    appointment_id = Column(Integer, ForeignKey('appointments.id'))
-    sender_id = Column(Integer, ForeignKey('users.id'))
-    receiver_id = Column(Integer, ForeignKey('users.id'))
-    message_text = Column(Text)
-    sent_at = Column(DateTime, default=datetime.datetime.utcnow)
+    __tablename__ = "messages"
 
-    appointment = relationship('Appointment')
-    sender = relationship('User', foreign_keys=[sender_id])
-    receiver = relationship('User', foreign_keys=[receiver_id])
+    id = Column(Integer, primary_key=True, index=True)
+    sender_id = Column(Integer, ForeignKey("users.id"))
+    receiver_id = Column(Integer, ForeignKey("users.id"))
+    message_content = Column(String)
+    timestamp = Column(DateTime, default=datetime.datetime.utcnow)
+
+    sender = relationship("User", foreign_keys=[sender_id])
+    receiver = relationship("User", foreign_keys=[receiver_id])

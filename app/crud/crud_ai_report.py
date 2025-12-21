@@ -1,6 +1,7 @@
 from typing import List
 from app.crud.base import CRUDBase
-from app.models.ai_report import AIReport, AIReportImage
+from app.models.ai_report import AIReport
+from app.models.ai_report_image import AIReportImage
 from app.schemas.ai_report import AIReportCreate, AIReportUpdate, AIReportImageCreate
 from sqlalchemy.orm import Session
 

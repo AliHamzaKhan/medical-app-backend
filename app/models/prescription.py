@@ -1,6 +1,6 @@
-from sqlalchemy import Column, Integer, Text, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, Date, ForeignKey, Text
 from sqlalchemy.orm import relationship
-from app.db.base_class import Base
+from app.db.base import Base
 
 class Prescription(Base):
     id = Column(Integer, primary_key=True, index=True)

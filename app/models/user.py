@@ -1,27 +1,24 @@
 import enum
-from sqlalchemy import Column, Integer, String, Boolean, Date, Enum as EnumDB, Table, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Boolean, Enum
 from app.db.base import Base
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class UserRole(str, enum.Enum):
-    admin = "admin"
-    doctor = "doctor"
-    patient = "patient"
+    PATIENT = "patient"
+    DOCTOR = "doctor"
 
 class User(Base):
-    id = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=True, index=True)
-    password_hash = Column(String)
-    first_name = Column(String)
-    last_name = Column(String)
-    date_of_birth = Column(Date)
-    gender = Column(String)
-    phone_number = Column(String)
-    address = Column(String)
-    role = Column(EnumDB(UserRole))
+    __tablename__ = "users"
 
-    clinics = relationship("Clinic", back_populates="owner")
-    doctor_profile = relationship('Doctor', uselist=False, back_populates='user')
-    patient_profile = relationship('Patient', uselist=False, back_populates='user')
-    medical_histories = relationship('MedicalHistory', back_populates='user')
-    notifications = relationship('Notification', back_populates='user')
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    email = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
+    is_active = Column(Boolean, default=True)
+    role = Column(Enum(UserRole))
+
+    def set_password(self, password):
+        self.hashed_password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.hashed_password, password)

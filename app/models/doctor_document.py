@@ -3,10 +3,11 @@ from sqlalchemy.orm import relationship
 from app.db.base import Base
 
 class DoctorDocument(Base):
-    id = Column(Integer, primary_key=True, index=True)
-    doctor_id = Column(Integer, ForeignKey('doctors.id'))
-    document_type = Column(String)  # e.g., 'license', 'degree'
-    document_path = Column(String)
-    is_verified = Column(String, default=False)
+    __tablename__ = "doctor_documents"
 
-    doctor = relationship('Doctor', back_populates='documents')
+    id = Column(Integer, primary_key=True, index=True)
+    doctor_id = Column(Integer, ForeignKey("doctors.id"))
+    document_type = Column(String)
+    document_url = Column(String)
+
+    doctor = relationship("Doctor")

@@ -1,13 +1,14 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, Text
+from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
-from app.db.base_class import Base
+from app.db.base import Base
 
 class MedicalHistory(Base):
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    condition_name = Column(String)
-    start_date = Column(Date)
-    end_date = Column(Date)
-    notes = Column(Text)
+    __tablename__ = "medical_histories"
 
-    user = relationship('User', back_populates='medical_histories')
+    id = Column(Integer, primary_key=True, index=True)
+    patient_id = Column(Integer, ForeignKey("users.id"))
+    condition = Column(String)
+    date_diagnosed = Column(Date)
+    notes = Column(String)
+
+    patient = relationship("User")
