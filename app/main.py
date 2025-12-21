@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
+
 from app.api.api import api_router
 from app.db.session import SessionLocal
 from app.db.base import Base
@@ -32,14 +34,17 @@ from app.db.initial_data import pre_populate_specialities
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
-
-app.include_router(api_router)
-
-@app.on_event("startup")
-def startup_event():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # on startup
     db = SessionLocal()
     try:
         pre_populate_specialities(db)
     finally:
         db.close()
+    yield
+    # on shutdown
+
+app = FastAPI(lifespan=lifespan)
+
+app.include_router(api_router)

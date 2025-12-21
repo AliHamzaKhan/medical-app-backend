@@ -1,3 +1,5 @@
+from .ai_report import AIReport
+from .ai_report_image import AIReportImage
 from .appointment import Appointment
 from .clinic import Clinic
 from .doctor import Doctor

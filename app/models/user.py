@@ -1,5 +1,6 @@
 import enum
 from sqlalchemy import Column, Integer, String, Boolean, Enum
+from sqlalchemy.orm import relationship
 from app.db.base import Base
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -16,6 +17,8 @@ class User(Base):
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
     role = Column(Enum(UserRole))
+
+    ai_reports = relationship("AIReport", back_populates="user")
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)

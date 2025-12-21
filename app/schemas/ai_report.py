@@ -1,6 +1,11 @@
 from pydantic import BaseModel
 from typing import Optional, List
 from datetime import datetime
+import enum
+
+class AIReportType(str, enum.Enum):
+    SKIN = "skin"
+    GENERAL = "general"
 
 class AIReportImageBase(BaseModel):
     image_path: str
@@ -17,7 +22,7 @@ class AIReportImage(AIReportImageBase):
 
 class AIReportBase(BaseModel):
     description: Optional[str] = None
-    report_type: str
+    report_type: AIReportType
 
 class AIReportCreate(AIReportBase):
     user_id: int
