@@ -9,6 +9,8 @@ class Package(Base):
     name = Column(String)
     description = Column(String)
     price = Column(Float)
+    credits_granted = Column(Integer)
     doctor_id = Column(Integer, ForeignKey("users.id"))
+    role = Column(String)
 
     doctor = relationship("User")

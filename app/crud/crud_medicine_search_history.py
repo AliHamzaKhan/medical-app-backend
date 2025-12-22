@@ -1,8 +1,12 @@
+from typing import List
+from sqlalchemy.orm import Session
+
 from app.crud.base import CRUDBase
 from app.models.medicine_search_history import MedicineSearchHistory
-from app.schemas.user import MedicineSearchHistoryCreate
+from app.schemas.medicine_search_history import MedicineSearchHistoryCreate, MedicineSearchHistoryUpdate
 
-class CRUDMedicineSearchHistory(CRUDBase[MedicineSearchHistory, MedicineSearchHistoryCreate, MedicineSearchHistoryCreate]):
-    pass
+class CRUDMedicineSearchHistory(CRUDBase[MedicineSearchHistory, MedicineSearchHistoryCreate, MedicineSearchHistoryUpdate]):
+    def get_multi_by_user(self, db: Session, *, user_id: int, skip: int = 0, limit: int = 100) -> List[MedicineSearchHistory]:
+        return db.query(self.model).filter(MedicineSearchHistory.user_id == user_id).offset(skip).limit(limit).all()
 
 medicine_search_history = CRUDMedicineSearchHistory(MedicineSearchHistory)

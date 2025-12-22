@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.api import deps
 from app.schemas.medical_history import MedicalHistory, MedicalHistoryCreate
-from app.crud import medical_history
+from app.crud.crud_medical_history import medical_history
 
 router = APIRouter()
 

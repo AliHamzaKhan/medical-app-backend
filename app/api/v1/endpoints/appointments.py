@@ -2,18 +2,20 @@
 from typing import Any, List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app import crud, models, schemas
+from app import crud, models
 from app.api import deps
 from app.models.appointment import AppointmentStatus
+from app.schemas.appointment import Appointment, AppointmentCreate, AppointmentUpdate
+from app.schemas.availability import AvailabilityUpdate
 
 router = APIRouter()
 
 
-@router.post("/", response_model=schemas.Appointment)
+@router.post("/", response_model=Appointment)
 def create_appointment(
     *, 
     db: Session = Depends(deps.get_db),
-    appointment_in: schemas.AppointmentCreate,
+    appointment_in: AppointmentCreate,
     current_user: models.User = Depends(deps.get_current_active_user)
 ) -> Any:
     """
@@ -43,13 +45,13 @@ def create_appointment(
     appointment = crud.appointment.create(db=db, obj_in=appointment_in)
 
     # Update the availability to mark it as booked
-    availability_update = schemas.AvailabilityUpdate(is_booked=True)
+    availability_update = AvailabilityUpdate(is_booked=True)
     crud.availability.update(db=db, db_obj=availability, obj_in=availability_update)
 
     return appointment
 
 
-@router.get("/", response_model=List[schemas.Appointment])
+@router.get("/", response_model=List[Appointment])
 def read_appointments(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
@@ -63,7 +65,7 @@ def read_appointments(
     return appointments
 
 
-@router.get("/{id}", response_model=schemas.Appointment)
+@router.get("/{id}", response_model=Appointment)
 def read_appointment(
     *, 
     db: Session = Depends(deps.get_db),
@@ -79,12 +81,12 @@ def read_appointment(
     return appointment
 
 
-@router.put("/{id}", response_model=schemas.Appointment)
+@router.put("/{id}", response_model=Appointment)
 def update_appointment(
     *, 
     db: Session = Depends(deps.get_db),
     id: int,
-    appointment_in: schemas.AppointmentUpdate,
+    appointment_in: AppointmentUpdate,
     current_user: models.User = Depends(deps.get_current_active_user)
 ) -> Any:
     """
@@ -98,14 +100,14 @@ def update_appointment(
     if appointment_in.status == AppointmentStatus.CANCELLED and appointment.status != AppointmentStatus.CANCELLED:
         availability = crud.availability.get(db=db, id=appointment.availability_id)
         if availability:
-            availability_update = schemas.AvailabilityUpdate(is_booked=False)
+            availability_update = AvailabilityUpdate(is_booked=False)
             crud.availability.update(db=db, db_obj=availability, obj_in=availability_update)
 
     appointment = crud.appointment.update(db=db, db_obj=appointment, obj_in=appointment_in)
     return appointment
 
 
-@router.delete("/{id}", response_model=schemas.Appointment)
+@router.delete("/{id}", response_model=Appointment)
 def delete_appointment(
     *, 
     db: Session = Depends(deps.get_db),
@@ -122,7 +124,7 @@ def delete_appointment(
     # Free up the availability
     availability = crud.availability.get(db=db, id=appointment.availability_id)
     if availability:
-        availability_update = schemas.AvailabilityUpdate(is_booked=False)
+        availability_update = AvailabilityUpdate(is_booked=False)
         crud.availability.update(db=db, db_obj=availability, obj_in=availability_update)
         
     appointment = crud.appointment.remove(db=db, id=id)

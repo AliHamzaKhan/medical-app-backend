@@ -1,19 +1,38 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
-from .user import User
+from typing import Optional
 
+# Shared properties
 class NotificationBase(BaseModel):
-    title: str
-    message: str
-    status: str
+    message: Optional[str] = None
+    is_read: Optional[int] = None
+    timestamp: Optional[datetime] = None
 
+
+# Properties to receive on item creation
 class NotificationCreate(NotificationBase):
     user_id: int
+    message: str
 
-class Notification(NotificationBase):
+
+# Properties to receive on item update
+class NotificationUpdate(NotificationBase):
+    pass
+
+
+# Properties shared by models in DB
+class NotificationInDBBase(NotificationBase):
     id: int
-    created_at: datetime
-    user: User
+    user_id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+
+
+# Properties to return to client
+class Notification(NotificationInDBBase):
+    pass
+
+
+# Properties properties stored in DB
+class NotificationInDB(NotificationInDBBase):
+    pass

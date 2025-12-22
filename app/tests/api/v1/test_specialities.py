@@ -6,7 +6,6 @@ from sqlalchemy.orm import Session
 
 from app import crud
 from app.core.config import settings
-from app.models.user import User
 from app.schemas.speciality import SpecialityCreate
 from app.tests.utils.utils import random_lower_string
 
@@ -17,7 +16,7 @@ def test_create_speciality(
     """
     Test creating a new speciality.
     """
-    data = {"name": "Cardiology"}
+    data = {"name": random_lower_string()}
     response = client.post(
         f"{settings.API_V1_STR}/specialities/",
         headers=superuser_token_headers,
@@ -30,14 +29,15 @@ def test_create_speciality(
 
 
 def test_read_specialities(
-    client: TestClient, superuser_token_headers: Dict[str, str]
+    client: TestClient, superuser_token_headers: Dict[str, str], db: Session
 ) -> None:
     """
     Test reading specialities.
     """
     speciality_name = random_lower_string()
     speciality_in = SpecialityCreate(name=speciality_name)
-    crud.speciality.create(db=Session.object_session(User()), obj_in=speciality_in)  # This is a bit of a hack to get a db session
+    crud.speciality.create(db=db, obj_in=speciality_in)
+    db.commit()
 
     response = client.get(
         f"{settings.API_V1_STR}/specialities/",
@@ -46,4 +46,4 @@ def test_read_specialities(
     assert response.status_code == 200
     content = response.json()
     assert isinstance(content, list)
-    assert len(content) > 0
+    assert any(s["name"] == speciality_name for s in content)

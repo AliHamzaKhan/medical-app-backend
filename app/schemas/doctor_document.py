@@ -1,30 +1,19 @@
-from pydantic import BaseModel
-
+from pydantic import BaseModel, ConfigDict
+from typing import Optional
 
 class DoctorDocumentBase(BaseModel):
-    document_path: str | None = None
-
+    doctor_id: int
+    document_type: str
+    document_url: str
 
 class DoctorDocumentCreate(DoctorDocumentBase):
-    document_path: str
-
-
-class DoctorDocumentUpdate(DoctorDocumentBase):
     pass
 
+class DoctorDocumentUpdate(BaseModel):
+    doctor_id: Optional[int] = None
+    document_type: Optional[str] = None
+    document_url: Optional[str] = None
 
-class DoctorDocumentInDBBase(DoctorDocumentBase):
+class DoctorDocument(DoctorDocumentBase):
     id: int
-    document_path: str
-    owner_id: int
-
-    class Config:
-        from_attributes = True
-
-
-class DoctorDocument(DoctorDocumentInDBBase):
-    pass
-
-
-class DoctorDocumentInDB(DoctorDocumentInDBBase):
-    pass
+    model_config = ConfigDict(from_attributes=True)

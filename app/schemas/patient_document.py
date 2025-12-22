@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 class PatientDocumentBase(BaseModel):
     document_path: str | None = None
@@ -14,8 +14,7 @@ class PatientDocumentInDBBase(PatientDocumentBase):
     document_path: str
     owner_id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class PatientDocument(PatientDocumentInDBBase):
     pass

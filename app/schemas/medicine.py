@@ -1,38 +1,30 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
-# Shared properties
 class MedicineBase(BaseModel):
-    name: Optional[str] = None
     description: Optional[str] = None
 
 
-# Properties to receive on item creation
 class MedicineCreate(MedicineBase):
     name: str
+    manufacturer: str
+    dosage: str
 
 
-# Properties to receive on item update
 class MedicineUpdate(MedicineBase):
     pass
 
 
-# Properties shared by models stored in DB
 class MedicineInDBBase(MedicineBase):
     id: int
     name: str
+    manufacturer: str
+    dosage: str
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
-# Properties to return to client
 class Medicine(MedicineInDBBase):
-    pass
-
-
-# Properties properties stored in DB
-class MedicineInDB(MedicineInDBBase):
     pass

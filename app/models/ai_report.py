@@ -12,6 +12,10 @@ class AIReport(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     description = Column(String)
     report_type = Column(SQLAlchemyEnum(AIReportType), nullable=False)
+    diagnosis = Column(String, nullable=True)
+    treatment = Column(String, nullable=True)
+    doctors_recommended = Column(String, nullable=True)
+    suggestions = Column(String, nullable=True)
 
     user = relationship("User", back_populates="ai_reports")
     images = relationship("AIReportImage", back_populates="report", cascade="all, delete-orphan")

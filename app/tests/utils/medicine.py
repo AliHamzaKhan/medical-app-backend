@@ -9,5 +9,10 @@ def random_lower_string() -> str:
 
 def create_random_medicine(db: Session) -> models.Medicine:
     name = random_lower_string()
-    medicine_in = MedicineCreate(name=name, description=random_lower_string())
-    return crud.medicine.create(db=db, obj_in=medicine_in)
+    manufacturer = random_lower_string()
+    dosage = random_lower_string()
+    medicine_in = MedicineCreate(name=name, description=random_lower_string(), manufacturer=manufacturer, dosage=dosage)
+    medicine = crud.medicine.create(db=db, obj_in=medicine_in)
+    db.commit()
+    db.refresh(medicine)
+    return medicine

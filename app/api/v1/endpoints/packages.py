@@ -2,17 +2,19 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List, Any
 
-from app import crud, models, schemas
+from app import crud, models
 from app.api import deps
+from app.schemas.package import Package, PackageCreate, PackageUpdate
+from app.schemas.user import User
 
 router = APIRouter()
 
-@router.post("/", response_model=schemas.Package)
+@router.post("/", response_model=Package)
 def create_package(
     *, 
     db: Session = Depends(deps.get_db),
-    package_in: schemas.PackageCreate,
-    current_user: models.User = Depends(deps.get_current_active_admin_user),
+    package_in: PackageCreate,
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Create new package.
@@ -20,7 +22,7 @@ def create_package(
     package = crud.package.create(db=db, obj_in=package_in)
     return package
 
-@router.get("/", response_model=List[schemas.Package])
+@router.get("/", response_model=List[Package])
 def read_packages(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
@@ -32,13 +34,27 @@ def read_packages(
     packages = crud.package.get_multi(db, skip=skip, limit=limit)
     return packages
 
-@router.put("/{id}", response_model=schemas.Package)
+@router.get("/{id}", response_model=Package)
+def read_package(
+    *, 
+    db: Session = Depends(deps.get_db),
+    id: int,
+) -> Any:
+    """
+    Get package by ID.
+    """
+    package = crud.package.get(db=db, id=id)
+    if not package:
+        raise HTTPException(status_code=404, detail="Package not found")
+    return package
+
+@router.put("/{id}", response_model=Package)
 def update_package(
     *, 
     db: Session = Depends(deps.get_db),
     id: int,
-    package_in: schemas.PackageUpdate,
-    current_user: models.User = Depends(deps.get_current_active_admin_user),
+    package_in: PackageUpdate,
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Update a package.
@@ -49,12 +65,12 @@ def update_package(
     package = crud.package.update(db=db, db_obj=package, obj_in=package_in)
     return package
 
-@router.delete("/{id}", response_model=schemas.Package)
+@router.delete("/{id}", response_model=Package)
 def delete_package(
     *, 
     db: Session = Depends(deps.get_db),
     id: int,
-    current_user: models.User = Depends(deps.get_current_active_admin_user),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Delete a package.
@@ -65,7 +81,7 @@ def delete_package(
     package = crud.package.remove(db=db, id=id)
     return package
 
-@router.post("/{package_id}/purchase", response_model=schemas.User)
+@router.post("/{package_id}/purchase", response_model=User)
 def purchase_package(
     *, 
     db: Session = Depends(deps.get_db),

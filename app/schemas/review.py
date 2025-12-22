@@ -1,21 +1,40 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
-from .doctor import Doctor
-from .patient import Patient
+from typing import Optional
 
+# Shared properties
 class ReviewBase(BaseModel):
-    rating: int
-    comment: str
+    rating: Optional[int] = None
+    comment: Optional[str] = None
+    review_date: Optional[datetime] = None
 
+
+# Properties to receive on item creation
 class ReviewCreate(ReviewBase):
     doctor_id: int
     patient_id: int
+    rating: int
 
-class Review(ReviewBase):
+
+# Properties to receive on item update
+class ReviewUpdate(ReviewBase):
+    pass
+
+
+# Properties shared by models in DB
+class ReviewInDBBase(ReviewBase):
     id: int
-    review_date: datetime
-    doctor: Doctor
-    patient: Patient
+    doctor_id: int
+    patient_id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+
+
+# Properties to return to client
+class Review(ReviewInDBBase):
+    pass
+
+
+# Properties properties stored in DB
+class ReviewInDB(ReviewInDBBase):
+    pass

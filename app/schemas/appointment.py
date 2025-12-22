@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 from .user import User
 from .doctor import Doctor
@@ -25,5 +25,4 @@ class Appointment(AppointmentBase):
     doctor: Doctor
     patient: Patient
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from datetime import date
 from typing import List, Optional
 from app.models.user import UserRole
@@ -34,5 +34,4 @@ class User(UserBase):
     id: int
     specialities: List[Speciality] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

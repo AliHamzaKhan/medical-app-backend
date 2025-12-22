@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 class StaffBase(BaseModel):
     name: str | None = None
@@ -16,8 +16,7 @@ class StaffInDBBase(StaffBase):
     name: str
     owner_id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class Staff(StaffInDBBase):
     pass

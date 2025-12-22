@@ -1,18 +1,39 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from datetime import date
-from .user import User
+from typing import Optional
 
+# Shared properties
 class MedicalHistoryBase(BaseModel):
-    diagnosis: str
-    treatment: str
-    visit_date: date
+    condition: Optional[str] = None
+    date_diagnosed: Optional[date] = None
+    notes: Optional[str] = None
 
+
+# Properties to receive on item creation
 class MedicalHistoryCreate(MedicalHistoryBase):
-    user_id: int
+    patient_id: int
+    condition: str
+    date_diagnosed: date
 
-class MedicalHistory(MedicalHistoryBase):
+
+# Properties to receive on item update
+class MedicalHistoryUpdate(MedicalHistoryBase):
+    pass
+
+
+# Properties shared by models in DB
+class MedicalHistoryInDBBase(MedicalHistoryBase):
     id: int
-    user: User
+    patient_id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+
+
+# Properties to return to client
+class MedicalHistory(MedicalHistoryInDBBase):
+    pass
+
+
+# Properties properties stored in DB
+class MedicalHistoryInDB(MedicalHistoryInDBBase):
+    pass

@@ -1,50 +1,27 @@
+import uvicorn
 from fastapi import FastAPI
-from contextlib import asynccontextmanager
+from starlette.middleware.cors import CORSMiddleware
 
-from app.api.api import api_router
-from app.db.session import SessionLocal
-from app.db.base import Base
-from app.db.session import engine
+from app.api.v1.api import api_router
+from app.core.config import settings
 
-# Import all models here to ensure they are registered with SQLAlchemy
-from app.models.ai_report import AIReport
-from app.models.appointment import Appointment
-from app.models.availability import Availability
-from app.models.clinic import Clinic
-from app.models.doctor import Doctor
-from app.models.doctor_document import DoctorDocument
-from app.models.hospital import Hospital
-from app.models.medical_history import MedicalHistory
-from app.models.medicine import Medicine
-from app.models.medicine_search_history import MedicineSearchHistory
-from app.models.message import Message
-from app.models.notification import Notification
-from app.models.package import Package
-from app.models.patient import Patient
-from app.models.payment import Payment
-from app.models.plan import Plan
-from app.models.prescription import Prescription
-from app.models.review import Review
-from app.models.role import Role
-from app.models.speciality import Speciality
-from app.models.subscription import Subscription
-from app.models.user import User
+app = FastAPI(
+    title="Health App",
+    openapi_url=f"{settings.API_V1_STR}/openapi.json"
+)
 
-from app.db.initial_data import pre_populate_specialities
+# Set all CORS enabled origins
+if settings.BACKEND_CORS_ORIGINS:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
-Base.metadata.create_all(bind=engine)
+app.include_router(api_router, prefix=settings.API_V1_STR)
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # on startup
-    db = SessionLocal()
-    try:
-        pre_populate_specialities(db)
-    finally:
-        db.close()
-    yield
-    # on shutdown
 
-app = FastAPI(lifespan=lifespan)
-
-app.include_router(api_router)
+if __name__ == '__main__':
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

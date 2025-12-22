@@ -1,13 +1,21 @@
-
 import os
 from dotenv import load_dotenv
+from app.core.settings.base import BaseConfig
+from app.core.settings.dev import DevConfig
+from app.core.settings.staging import StagingConfig
+from app.core.settings.production import ProdConfig
 
 load_dotenv()
 
-class Settings:
-    SQLALCHEMY_DATABASE_URI: str = os.getenv("SQLALCHEMY_DATABASE_URI")
-    API_V1_STR: str = "/api/v1"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8 # 8 days
-    SECRET_KEY: str = os.getenv("SECRET_KEY")
+APP_ENV = os.getenv("APP_ENV", "dev")
 
-settings = Settings()
+def get_settings():
+    if APP_ENV == "dev":
+        return DevConfig()
+    elif APP_ENV == "staging":
+        return StagingConfig()
+    elif APP_ENV == "production":
+        return ProdConfig()
+    return BaseConfig()
+
+settings = get_settings()

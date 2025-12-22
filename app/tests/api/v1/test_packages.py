@@ -6,7 +6,7 @@ from app.tests.utils.package import create_random_package
 
 
 def test_create_package(client: TestClient, superuser_token_headers: dict, db: Session) -> None:
-    data = {"name": "Foo", "description": "Fighters", "price": 10.0, "credits": 10}
+    data = {"name": "Foo", "description": "Fighters", "price": 10.0, "credits_granted": 10, "role": "user"}
     response = client.post(
         f"{settings.API_V1_STR}/packages/",
         headers=superuser_token_headers,
@@ -17,7 +17,7 @@ def test_create_package(client: TestClient, superuser_token_headers: dict, db: S
     assert content["name"] == data["name"]
     assert content["description"] == data["description"]
     assert content["price"] == data["price"]
-    assert content["credits"] == data["credits"]
+    assert content["credits_granted"] == data["credits_granted"]
     assert "id" in content
 
 
@@ -29,5 +29,5 @@ def test_read_package(client: TestClient, db: Session) -> None:
     assert content["name"] == package.name
     assert content["description"] == package.description
     assert content["price"] == package.price
-    assert content["credits"] == package.credits
+    assert content["credits_granted"] == package.credits_granted
     assert content["id"] == package.id

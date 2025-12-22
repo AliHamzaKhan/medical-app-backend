@@ -14,7 +14,6 @@ def read_roles(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
-    current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Retrieve roles.
@@ -28,7 +27,7 @@ def create_role(
     *, 
     db: Session = Depends(deps.get_db),
     role_in: schemas.RoleCreate,
-    current_user: models.User = Depends(deps.get_current_active_user),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Create new role.
@@ -43,7 +42,7 @@ def update_role(
     db: Session = Depends(deps.get_db),
     id: int,
     role_in: schemas.RoleUpdate,
-    current_user: models.User = Depends(deps.get_current_active_user),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Update a role.
@@ -56,11 +55,10 @@ def update_role(
 
 
 @router.get("/{id}", response_model=schemas.Role)
-def read_role_by_id(
+def read_role(
     *, 
     db: Session = Depends(deps.get_db),
     id: int,
-    current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Get a specific role by id.
@@ -76,7 +74,7 @@ def delete_role(
     *, 
     db: Session = Depends(deps.get_db),
     id: int,
-    current_user: models.User = Depends(deps.get_current_active_user),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Delete a role.

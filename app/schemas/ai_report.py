@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List
 from datetime import datetime
 import enum
@@ -17,8 +17,7 @@ class AIReportImage(AIReportImageBase):
     id: int
     ai_report_id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class AIReportBase(BaseModel):
     description: Optional[str] = None
@@ -29,16 +28,19 @@ class AIReportCreate(AIReportBase):
     images: List[AIReportImageCreate]
 
 class AIReportUpdate(AIReportBase):
-    pass
+    diagnosis: Optional[str] = None
+    treatment: Optional[str] = None
+    doctors_recommended: Optional[List[str]] = None
+    suggestions: Optional[List[str]] = None
 
 class AIReport(AIReportBase):
     id: int
     user_id: int
     diagnosis: Optional[str] = None
     treatment: Optional[str] = None
-    recommended_specialities: Optional[str] = None
+    doctors_recommended: Optional[str] = None
+    suggestions: Optional[str] = None
     created_at: datetime
     images: List[AIReportImage] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

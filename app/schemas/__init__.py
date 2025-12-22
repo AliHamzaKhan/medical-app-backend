@@ -14,3 +14,10 @@ from .medicine import Medicine, MedicineCreate, MedicineUpdate
 from .package import Package, PackageCreate, PackageUpdate 
 from .plan import Plan, PlanCreate, PlanUpdate 
 from .subscription import Subscription, SubscriptionCreate, SubscriptionUpdate 
+from .medicine_search_history import MedicineSearchHistory, MedicineSearchHistoryCreate, MedicineSearchHistoryUpdate
+from .medical_history import MedicalHistory, MedicalHistoryCreate, MedicalHistoryUpdate
+from .message import Message, MessageCreate, MessageUpdate
+from .notification import Notification, NotificationCreate, NotificationUpdate
+from .payment import Payment, PaymentCreate, PaymentUpdate
+from .prescription import Prescription, PrescriptionCreate, PrescriptionUpdate
+from .review import Review, ReviewCreate, ReviewUpdate

@@ -1,4 +1,5 @@
-from pydantic import BaseModel
+
+from pydantic import BaseModel, ConfigDict
 import datetime
 
 class SubscriptionBase(BaseModel):
@@ -19,5 +20,4 @@ class Subscription(SubscriptionBase):
     user_id: int
     plan_id: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)

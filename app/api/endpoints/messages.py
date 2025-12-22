@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.api import deps
 from app.schemas.message import Message, MessageCreate
-from app.crud import message
+from app.crud.crud_message import message
 
 router = APIRouter()
 

@@ -6,5 +6,6 @@ class Plan(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
+    description = Column(String)
     price = Column(Float)
-    features = Column(String)
+    duration_days = Column(Integer)
