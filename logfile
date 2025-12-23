@@ -1,0 +1,22 @@
+2025-12-23 08:16:34.088 UTC [4139] LOG:  starting PostgreSQL 15.7 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.3.0, 64-bit
+2025-12-23 08:16:34.089 UTC [4139] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-12-23 08:16:34.095 UTC [4139] FATAL:  could not create lock file "/run/postgresql/.s.PGSQL.5432.lock": No such file or directory
+2025-12-23 08:16:34.103 UTC [4139] LOG:  database system is shut down
+2025-12-23 08:18:11.229 UTC [4486] LOG:  starting PostgreSQL 15.7 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.3.0, 64-bit
+2025-12-23 08:18:11.229 UTC [4486] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-12-23 08:18:11.234 UTC [4486] FATAL:  could not create lock file "/run/postgresql/.s.PGSQL.5432.lock": No such file or directory
+2025-12-23 08:18:11.238 UTC [4486] LOG:  database system is shut down
+2025-12-23 08:19:32.025 UTC [4747] LOG:  starting PostgreSQL 15.7 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.3.0, 64-bit
+2025-12-23 08:19:32.025 UTC [4747] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-12-23 08:19:32.030 UTC [4747] FATAL:  could not create lock file "~/.postgres/run/.s.PGSQL.5432.lock": No such file or directory
+2025-12-23 08:19:32.033 UTC [4747] LOG:  database system is shut down
+2025-12-23 08:20:10.712 UTC [4875] LOG:  starting PostgreSQL 15.7 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.3.0, 64-bit
+2025-12-23 08:20:10.714 UTC [4875] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-12-23 08:20:10.728 UTC [4875] LOG:  listening on Unix socket "/home/user/.postgres/run/.s.PGSQL.5432"
+2025-12-23 08:20:10.764 UTC [4878] LOG:  database system was shut down at 2025-12-23 08:17:54 UTC
+2025-12-23 08:20:10.833 UTC [4875] LOG:  database system is ready to accept connections
+2025-12-23 08:20:15.816 UTC [4901] LOG:  invalid length of startup packet
+2025-12-23 08:20:15.827 UTC [4902] LOG:  invalid length of startup packet
+2025-12-23 08:25:10.843 UTC [4876] LOG:  checkpoint starting: time
+2025-12-23 08:25:15.290 UTC [4876] LOG:  checkpoint complete: wrote 47 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=4.425 s, sync=0.008 s, total=4.448 s; sync files=11, longest=0.005 s, average=0.001 s; distance=273 kB, estimate=273 kB
+2025-12-23 08:35:10.452 UTC [4876] LOG:  checkpoint starting: time
