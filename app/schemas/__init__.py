@@ -21,3 +21,4 @@ from .notification import Notification, NotificationCreate, NotificationUpdate
 from .payment import Payment, PaymentCreate, PaymentUpdate
 from .prescription import Prescription, PrescriptionCreate, PrescriptionUpdate
 from .review import Review, ReviewCreate, ReviewUpdate
+from .schedule import Schedule, ScheduleCreate, ScheduleUpdate

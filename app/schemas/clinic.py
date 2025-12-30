@@ -4,12 +4,10 @@ from pydantic import BaseModel, ConfigDict
 class ClinicBase(BaseModel):
     name: str | None = None
     address: str | None = None
-    latitude: float | None = None
-    longitude: float | None = None
-
 
 class ClinicCreate(ClinicBase):
     name: str
+    address: str
 
 
 class ClinicUpdate(ClinicBase):

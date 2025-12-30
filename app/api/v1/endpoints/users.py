@@ -6,10 +6,10 @@ from fastapi.encoders import jsonable_encoder
 from pydantic.networks import EmailStr
 from sqlalchemy.orm import Session
 
-from app import crud, models, schemas
-from app.api import deps
-from app.core.config import settings
-from app.crud import crud_doctor
+from .... import crud, models, schemas
+from ... import deps
+from ....core.config import settings
+from ....crud import crud_doctor
 
 router = APIRouter()
 

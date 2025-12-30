@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Boolean, Float
 from app.db.base import Base
 
 class Medicine(Base):
@@ -9,3 +9,5 @@ class Medicine(Base):
     manufacturer = Column(String, nullable=False)
     dosage = Column(String, nullable=False)
     description = Column(String, nullable=True)
+    requires_prescription = Column(Boolean, default=False)
+    price = Column(Float, nullable=False)

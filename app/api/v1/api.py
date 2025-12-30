@@ -1,12 +1,12 @@
 
 from fastapi import APIRouter
 
-from app.api.v1.endpoints import (
+from .endpoints import (
     users, login, hospitals, patients, doctors, roles, 
     plans, subscriptions, ai_reports, packages, credits, profiles, specialities,
     clinics, doctor_documents, availability, appointments, medicines, data_process,
     medical_histories, medicine_search_histories, messages, notifications, payments,
-    prescriptions, reviews
+    prescriptions, reviews, schedules, admin
 )
 
 api_router = APIRouter()
@@ -36,3 +36,5 @@ api_router.include_router(notifications.router, prefix="/notifications", tags=["
 api_router.include_router(payments.router, prefix="/payments", tags=["payments"])
 api_router.include_router(prescriptions.router, prefix="/prescriptions", tags=["prescriptions"])
 api_router.include_router(reviews.router, prefix="/reviews", tags=["reviews"])
+api_router.include_router(schedules.router, prefix="/schedules", tags=["schedules"])
+api_router.include_router(admin.router, prefix="/admin", tags=["admin"])

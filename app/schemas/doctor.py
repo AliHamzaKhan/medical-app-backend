@@ -4,7 +4,7 @@ from .user import User
 from app.models.doctor import DoctorStatus
 
 class DoctorBase(BaseModel):
-    experience_years: int
+    years_of_experience: int
     consultation_fee: int
     bio: str
 
@@ -12,7 +12,7 @@ class DoctorCreate(DoctorBase):
     user_id: int
 
 class DoctorUpdate(DoctorBase):
-    experience_years: Optional[int] = None
+    years_of_experience: Optional[int] = None
     consultation_fee: Optional[int] = None
     bio: Optional[str] = None
     user_id: Optional[int] = None

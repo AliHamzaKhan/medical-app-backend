@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.endpoints import (login, users, roles, specialities, hospitals, clinics, availabilities, doctors, patients, appointments, prescriptions, medical_histories, messages, notifications, payments, reviews, medicines, packages, plans)
+from app.api.endpoints import (login, users, roles, specialities, hospitals, clinics, availabilities, doctors, patients, appointments, prescriptions, medical_histories, messages, notifications, payments, reviews, medicines, packages, plans, schedules)
 
 api_router = APIRouter()
 
@@ -23,6 +23,7 @@ endpoint_modules = [
     (medicines, "medicines", "Medicines"),
     (packages, "packages", "Packages"),
     (plans, "plans", "Plans"),
+    (schedules, "schedules", "Schedules"),
 ]
 
 for module, prefix, tag in endpoint_modules:

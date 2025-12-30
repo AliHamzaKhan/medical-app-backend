@@ -1,0 +1,7 @@
+/* Since the HTML is using Tailwind CSS utility classes, we don't need to add much custom CSS. We can add component-specific styles here if needed. */
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

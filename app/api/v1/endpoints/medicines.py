@@ -48,7 +48,7 @@ def create_medicine(
         return medicine
     except Exception as e:
         logging.error(f"Error creating medicine: {e}")
-        raise HTTPException(status_code=400, detail=f"Error creating medicine: {e}")
+        raise HTTPException(status_code=400, detail=str(e))
 
 @router.put("/{id}", response_model=Medicine)
 def update_medicine(

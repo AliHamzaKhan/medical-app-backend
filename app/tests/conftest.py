@@ -7,14 +7,14 @@ from sqlalchemy.orm import Session
 from app.main import app
 from app.db.session import SessionLocal, engine
 from app.db.base import Base
-from app.tests.utils.user import create_random_user
-from app.core.config import settings
+from app.db.init_db import init_db
 from app.tests.utils.utils import get_superuser_token_headers
 
 @pytest.fixture(scope="function")
 def db() -> Generator:
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
+    init_db(db)
     yield db
     db.close()
     Base.metadata.drop_all(bind=engine)

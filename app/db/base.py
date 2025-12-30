@@ -1,11 +1,14 @@
-from sqlalchemy.orm import as_declarative, declared_attr
-
-@as_declarative()
-class Base:
-    id: int
-    __name__: str
-
-    # Generate __tablename__ automatically
-    @declared_attr
-    def __tablename__(cls) -> str:
-        return cls.__name__.lower()
+from app.db.base_class import Base
+from app.models.ai_generated_text import AIGeneratedText
+from app.models.ai_report import AIReport
+from app.models.ai_report_image import AIReportImage
+from app.models.appointment import Appointment
+from app.models.availability import Availability
+from app.models.clinic import Clinic
+from app.models.doctor import Doctor
+from app.models.doctor_document import DoctorDocument
+from app.models.message import Message
+from app.models.review import Review
+from app.models.schedule import Schedule
+from app.models.speciality import Speciality
+from app.models.user import User

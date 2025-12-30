@@ -16,7 +16,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
             return None
         return user
 
-    def create(self, db: Session, *, obj_in: UserCreate) -> User:
+    def create(self, db: Session, *, obj_in: UserCreate, is_superuser: bool = False) -> User:
         db_obj = User(
             email=obj_in.email,
             hashed_password=get_password_hash(obj_in.password),
@@ -27,7 +27,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
             phone_number=obj_in.phone_number,
             address=obj_in.address,
             role=obj_in.role,
-            is_superuser=obj_in.role == "superuser",
+            is_superuser=is_superuser,
         )
         db.add(db_obj)
         db.commit()

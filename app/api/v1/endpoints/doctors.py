@@ -8,6 +8,7 @@ from app.api import deps
 from app.schemas.doctor import Doctor, DoctorCreate, DoctorStatusUpdate
 from app.schemas.doctor_document import DoctorDocumentCreate
 from app.schemas.user import User
+from app.schemas.schedule import Schedule
 
 router = APIRouter()
 
@@ -99,3 +100,14 @@ def search_doctors(
         limit=limit,
     )
     return doctors
+
+@router.get("/schedule/today", response_model=Schedule)
+def get_todays_schedule(
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_user),
+):
+    """
+    Get today's schedule for the current doctor.
+    """
+    todays_appointments = crud.doctor.get_doctor_schedule_today(db, doctor_id=current_user.id)
+    return Schedule(appointments=todays_appointments)

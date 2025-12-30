@@ -1,11 +1,10 @@
 from typing import Any, List
-import pandas as pd
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app import crud
-from app.api import deps
-from app.schemas.hospital import Hospital, HospitalCreate, HospitalUpdate
+from .... import crud
+from ... import deps
+from ....schemas.hospital import Hospital, HospitalUpdate
 
 router = APIRouter()
 
@@ -21,19 +20,6 @@ def read_hospitals(
     """
     hospitals = crud.hospital.get_multi(db, skip=skip, limit=limit)
     return hospitals
-
-
-@router.post("/", response_model=Hospital)
-def create_hospital(
-    *,
-    db: Session = Depends(deps.get_db),
-    hospital_in: HospitalCreate,
-) -> Any:
-    """
-    Create new hospital.
-    """
-    hospital = crud.hospital.create(db, obj_in=hospital_in)
-    return hospital
 
 
 @router.put("/{hospital_id}", response_model=Hospital)
@@ -82,39 +68,3 @@ def delete_hospital(
         raise HTTPException(status_code=404, detail="Hospital not found")
     hospital = crud.hospital.remove(db, id=hospital_id)
     return hospital
-
-
-@router.post("/upload-excel", response_model=List[Hospital])
-def create_hospitals_from_excel(
-    *,
-    db: Session = Depends(deps.get_db),
-    file: UploadFile = File(...),
-) -> Any:
-    """
-    Create new hospitals from an Excel file.
-    """
-    if file.content_type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-        raise HTTPException(status_code=400, detail="Invalid file type. Please upload an Excel file.")
-    try:
-        df = pd.read_excel(file.file)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Error reading Excel file: {e}")
-
-    hospitals = []
-    for _, row in df.iterrows():
-        hospital_in = HospitalCreate(
-            name=row["Name"],
-            departments=row.get("Departments"),
-            address=row.get("Address"),
-            website=row.get("Website"),
-            phone_no=row.get("PhoneNo"),
-            current_status=row.get("CurrentStatus"),
-            image=row.get("Image"),
-            timings=row.get("Timings"),
-            latitude=row.get("Latitude"),
-            longitude=row.get("Longitude"),
-        )
-        hospital = crud.hospital.create(db, obj_in=hospital_in)
-        hospitals.append(hospital)
-
-    return hospitals

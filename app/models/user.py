@@ -27,6 +27,8 @@ class User(Base):
     remaining_medicine_search_credits = Column(Integer, default=0)
 
     ai_reports = relationship("AIReport", back_populates="user")
+    clinics = relationship("Clinic", back_populates="owner")
+    schedules = relationship("Schedule", back_populates="doctor")
 
     def set_password(self, password):
         self.hashed_password = get_password_hash(password)

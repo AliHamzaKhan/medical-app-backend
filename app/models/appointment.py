@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Enum
 from sqlalchemy.orm import relationship
-from app.db.base import Base
+from app.db.base_class import Base
 import enum
 
 class AppointmentStatus(str, enum.Enum):
@@ -15,6 +15,7 @@ class Appointment(Base):
     patient_id = Column(Integer, ForeignKey("users.id"))
     doctor_id = Column(Integer, ForeignKey("users.id"))
     availability_id = Column(Integer, ForeignKey("availabilities.id"))
+    schedule_id = Column(Integer, ForeignKey("schedules.id"))
     appointment_time = Column(DateTime)
     reason = Column(String)
     status = Column(Enum(AppointmentStatus), default=AppointmentStatus.SCHEDULED)
@@ -22,3 +23,4 @@ class Appointment(Base):
     patient = relationship("User", foreign_keys=[patient_id])
     doctor = relationship("User", foreign_keys=[doctor_id])
     availability = relationship("Availability")
+    schedule = relationship("Schedule", back_populates="appointments")

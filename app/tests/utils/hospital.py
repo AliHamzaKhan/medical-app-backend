@@ -9,8 +9,8 @@ from app.tests.utils.utils import random_lower_string, random_float
 def create_random_hospital(db: Session) -> Hospital:
     name = random_lower_string()
     address = random_lower_string()
-    latitude = random_float()
-    longitude = random_float()
+    latitude = random_float(-90, 90)
+    longitude = random_float(-180, 180)
     phone_no = "1234567890"
     website = "example.com"
     timings = "9am-5pm"

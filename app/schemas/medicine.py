@@ -5,12 +5,15 @@ from pydantic import BaseModel, ConfigDict
 
 class MedicineBase(BaseModel):
     description: Optional[str] = None
+    requires_prescription: Optional[bool] = False
+    price: Optional[float] = None
 
 
 class MedicineCreate(MedicineBase):
     name: str
     manufacturer: str
     dosage: str
+    price: float
 
 
 class MedicineUpdate(MedicineBase):

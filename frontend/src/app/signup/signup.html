@@ -1,0 +1,150 @@
+<div class="min-h-screen bg-gray-100 flex items-center justify-center">
+  <div class="container mx-auto p-4">
+    <div class="grid md:grid-cols-2 gap-8 items-start bg-white rounded-lg shadow-lg overflow-hidden">
+
+      <!-- Left Column: Information -->
+      <div class="p-8 md:p-12">
+        <div class="mb-6">
+          <a routerLink="/signup" class="text-blue-600 hover:underline">&larr; Back to account type</a>
+        </div>
+        <h1 class="text-4xl font-bold text-gray-800">Create Your Account</h1>
+        <p class="text-gray-600 mt-2">Join our community to manage your health or your practice with ease.</p>
+        <div class="mt-8">
+          <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ab?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Sign Up Image" class="w-full h-auto object-cover rounded-lg">
+        </div>
+      </div>
+
+      <!-- Right Column: Form -->
+      <div class="p-8 md:p-12 bg-gray-50">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 capitalize">{{ userType }} Registration</h2>
+        <form (ngSubmit)="handleSubmit()" class="space-y-6">
+          <ng-container *ngIf="userType">
+            <!-- Section 1: Basic Information -->
+            <div class="p-6 bg-white rounded-lg shadow-md">
+              <h3 class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Basic Information</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label for="firstName" class="block text-gray-700 font-medium mb-2">First Name</label>
+                  <input type="text" id="firstName" [(ngModel)]="firstName" name="firstName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div>
+                  <label for="lastName" class="block text-gray-700 font-medium mb-2">Last Name</label>
+                  <input type="text" id="lastName" [(ngModel)]="lastName" name="lastName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div>
+                  <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                  <input type="email" id="email" [(ngModel)]="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div>
+                  <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
+                  <input type="password" id="password" [(ngModel)]="password" name="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div>
+                  <label for="phone" class="block text-gray-700 font-medium mb-2">Phone</label>
+                  <input type="tel" id="phone" [(ngModel)]="phone" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div>
+                  <label for="gender" class="block text-gray-700 font-medium mb-2">Gender</label>
+                  <select id="gender" [(ngModel)]="gender" name="gender" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <option value="" disabled>Select...</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Patient Specific Fields -->
+            <div *ngIf="userType === 'patient'" class="p-6 bg-white rounded-lg shadow-md">
+              <h3 class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Medical Information</h3>
+               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label for="dob" class="block text-gray-700 font-medium mb-2">Date of Birth</label>
+                  <input type="date" id="dob" [(ngModel)]="dateOfBirth" name="dob" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                 <div>
+                    <label for="bloodType" class="block text-gray-700 font-medium mb-2">Blood Type</label>
+                    <input type="text" id="bloodType" [(ngModel)]="bloodType" name="bloodType" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                 <div>
+                    <label for="height" class="block text-gray-700 font-medium mb-2">Height (cm)</label>
+                    <input type="number" id="height" [(ngModel)]="height" name="height" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                 <div>
+                    <label for="weight" class="block text-gray-700 font-medium mb-2">Weight (kg)</label>
+                    <input type="number" id="weight" [(ngModel)]="weight" name="weight" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                 <div>
+                    <label for="emergencyContactName" class="block text-gray-700 font-medium mb-2">Emergency Contact</label>
+                    <input type="text" id="emergencyContactName" [(ngModel)]="emergencyContactName" name="emergencyContactName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                 <div>
+                    <label for="emergencyContactPhone" class="block text-gray-700 font-medium mb-2">Emergency Phone</label>
+                    <input type="tel" id="emergencyContactPhone" [(ngModel)]="emergencyContactPhone" name="emergencyContactPhone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+              </div>
+              <div class="mt-6">
+                <label for="allergies" class="block text-gray-700 font-medium mb-2">Allergies</label>
+                <textarea id="allergies" [(ngModel)]="allergies" name="allergies" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+              </div>
+              <div class="mt-6">
+                <label for="medicalConditions" class="block text-gray-700 font-medium mb-2">Medical Conditions</label>
+                <textarea id="medicalConditions" [(ngModel)]="medicalConditions" name="medicalConditions" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+              </div>
+            </div>
+
+            <!-- Doctor Specific Fields -->
+            <div *ngIf="userType === 'doctor'" class="p-6 bg-white rounded-lg shadow-md">
+              <h3 class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Professional Information</h3>
+               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label for="specialization" class="block text-gray-700 font-medium mb-2">Specialization</label>
+                  <input type="text" id="specialization" [(ngModel)]="specialization" name="specialization" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div>
+                  <label for="licenseNumber" class="block text-gray-700 font-medium mb-2">License Number</label>
+                  <input type="text" id="licenseNumber" [(ngModel)]="licenseNumber" name="licenseNumber" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                 <div>
+                    <label for="yearsOfExperience" class="block text-gray-700 font-medium mb-2">Years of Experience</label>
+                    <input type="number" id="yearsOfExperience" [(ngModel)]="yearsOfExperience" name="yearsOfExperience" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                 <div>
+                    <label for="consultationFee" class="block text-gray-700 font-medium mb-2">Consultation Fee ($)</label>
+                    <input type="number" id="consultationFee" [(ngModel)]="consultationFee" name="consultationFee" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+              </div>
+              <div class="mt-6">
+                <label for="education" class="block text-gray-700 font-medium mb-2">Education</label>
+                <textarea id="education" [(ngModel)]="education" name="education" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+              </div>
+              <div class="mt-6">
+                <label for="bio" class="block text-gray-700 font-medium mb-2">Professional Bio</label>
+                <textarea id="bio" [(ngModel)]="bio" name="bio" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="mt-8 text-center">
+              <button type="submit" class="w-full bg-blue-600 text-white font-bold py-4 px-8 rounded-lg hover:bg-blue-700 transition duration-300" [disabled]="loading">
+                <span *ngIf="!loading">Create Account</span>
+                <span *ngIf="loading">Creating...</span>
+              </button>
+            </div>
+
+            <div class="mt-6 text-center">
+              <p class="text-gray-600">Already have an account? <a routerLink="/login" class="text-blue-600 hover:underline">Login</a></p>
+            </div>
+          </ng-container>
+
+          <!-- Error Message -->
+          <div *ngIf="error" class="mt-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Error:</strong>
+            <span class="block sm:inline">{{ error }}</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
